@@ -1,18 +1,24 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
-const incomeSchema = new mongoose.Schema({
+const expenseSchema = new mongoose.Schema({
     title: {
-        type:String,
+        type: String,
         required: true,
-        trim: true
+        trim: true,
+        maxLength: 50
     },
-    amount : {
+    amount: {
         type: Number,
         required: true,
+        maxLength: 20,
         trim: true
     },
-    description: {
+    type: {
         type: String,
+        default:"expense"
+    },
+    date: {
+        type: Date,
         required: true,
         trim: true
     },
@@ -21,15 +27,10 @@ const incomeSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    type: {
+    description: {
         type: String,
-        default:"income"
-    },
-    date: {
-        type: Date,
         required: true,
+        maxLength: 20,
         trim: true
-    }
-},{timestamps:true})
-
-export default   mongoose.model("income",incomeSchema)
+    },
+}, {timestamps: true})
