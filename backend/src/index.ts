@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors'
 import cookieParser from"cookie-parser";
 import connectDb from "./config/db";
+import transcationRoutes from './routes/transaction'
 dotenv.config();
 const app = express();
 const port =  process.env.PORT
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 connectDb();
 app.use(express.urlencoded({extended:false}))
+app.use("/api/user/",transcationRoutes)
 app.get("/", (req: Request, res: Response) => {
     res.send("Express + TypeScript Server");
   });
