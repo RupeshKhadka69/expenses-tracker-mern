@@ -30,4 +30,35 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     next(err);
   }
 };
-export {register}
+
+const login = async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(404).json({ message: "field not completed" });
+  }
+  const existingUser = await User.findOne({ email });
+  if (!existingUser) {
+    return res.status(400).json({ message: "user doen't exits" });
+  }
+  try {
+    if (await comparePassword(password, existingUser.password)) {
+      const token = makeToken(res, existingUser._id, false);
+      return res.status(200).json({
+        message: "sucess",
+        user: {
+          _id: existingUser._id,
+          name: existingUser.name,
+          email: existingUser.email,
+        },
+        token,
+      });
+    } else {
+      return res.status(401).json({
+        message: "password doesnot match",
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+export { register ,login};
