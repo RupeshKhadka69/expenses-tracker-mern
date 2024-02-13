@@ -42,7 +42,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   }
   try {
     if (await comparePassword(password, existingUser.password)) {
-      const token = makeToken(res, existingUser._id, false);
+      const token = makeToken(res, existingUser._id, true);
       return res.status(200).json({
         message: "sucess",
         user: {
