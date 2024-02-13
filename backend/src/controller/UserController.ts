@@ -61,4 +61,25 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     next(err);
   }
 };
-export { register ,login};
+
+const getProfile = async (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
+
+  const user = {
+    _id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+  };
+
+  return res.status(200).json(user);
+};
+const logout = async (req: Request, res: Response)=> {
+    res.cookie("jwt","",{
+        httpOnly: true,
+        expires: new Date(0)
+    });
+    res.status(200).json({ message: "log out sucessful" });
+}
+export { register, login, getProfile,logout };
