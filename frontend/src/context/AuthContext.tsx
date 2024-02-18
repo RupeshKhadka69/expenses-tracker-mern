@@ -4,7 +4,7 @@ type UserData = {
   // Define the structure of your user data here
   name: string,
   email: string,
-  id: string
+  _id: string
 };
 
 type AuthContextType = {

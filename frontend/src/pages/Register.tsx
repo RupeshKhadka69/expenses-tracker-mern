@@ -3,7 +3,7 @@ import { useMutation } from 'react-query'; // Import UseMutationOptions
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { register } from '../api/api';
+import { AuthenticationService } from '../services/AuthenticationService';
 import { toast, ToastContainer } from 'react-toastify';
 
 // Define IUser interface if not already defined
@@ -17,7 +17,7 @@ const RegisterUser = () => {
     const navigate = useNavigate(); // If you plan to use navigate, uncomment this line
 
     // Adjust the UseMutationOptions type to match your needs
-    const { mutate, isLoading } = useMutation(register, {
+    const { mutate, isLoading } = useMutation(AuthenticationService.register, {
         onSuccess: (data) => {
             toast.success('Registration successful');
             setName('');

@@ -2,7 +2,8 @@ import IncomeSchema from "../model/IncomeSchema";
 import { Request, Response } from "express";
 const addIncome = async (req: Request, res: Response) => {
   const { title, category, date, amount, description } = req.body;
-  const userId = req.user._id;
+  const {userid} = req.params;
+  
   if (!title || !category || !date || !amount || !description) {
     return res.status(401).json({ message: "all fields are necessary" });
   }
@@ -11,11 +12,14 @@ const addIncome = async (req: Request, res: Response) => {
       .status(400)
       .json({ message: "Amount must be a positive number" });
   }
+  if(!userid) {
+    return res.status(401).json({message: "id not provided as params"})
+  }
 
   try {
     const newIncome = new IncomeSchema({
       title,
-      user: userId,
+      user: userid,
       amount,
       description,
       category,
@@ -31,15 +35,16 @@ const addIncome = async (req: Request, res: Response) => {
   }
 };
 const getAllIncomes = async (req: Request, res: Response) => {
-  try {
-    const userId = req.user?._id;
-    if (!userId) {
-      return res
-        .status(401)
-        .json({ success: false, message: "User not authenticated" });
-    }
+  const {userid} = req.params;
 
-    const specificUserIncome = await IncomeSchema.find({ user: userId });
+  if (!userid) {
+    return res
+      .status(401)
+      .json({ success: false, message: "not a valid id" });
+  }
+  try {
+
+    const specificUserIncome = await IncomeSchema.find({ user: userid });
 
     return res.status(200).json({
       success: true,

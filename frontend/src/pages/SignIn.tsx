@@ -1,59 +1,45 @@
-import React, { useState,useContext, useEffect } from 'react';
-import { useMutation } from 'react-query'; // Import UseMutationOptions
-import 'react-toastify/dist/ReactToastify.css';
+import  {  useState } from 'react';
+import { useMutation,useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
-import { AuthContext } from '../context/AuthContext';
-import { login } from '../api/api';
+import { AuthenticationService } from '../services/AuthenticationService';
 import { toast, ToastContainer } from 'react-toastify';
-
-// Define IUser interface if not already defined
-
+import { userLocalStorage } from '../utils/UserLocalStorage';
 
 const Login = () => {
-    const navigate = useNavigate(); // If you plan to use navigate, uncomment this line
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const {user,setUser} = useContext(AuthContext);
-    useEffect(()=> {
-        if(user){
-            navigate("/");
-        }
-
-    },[user,navigate])
 
 
-    // Adjust the UseMutationOptions type to match your needs
-    const { mutate, isLoading } = useMutation(login, {
+    const mutation = useMutation(['loginMutation'], AuthenticationService.login, {
         onSuccess: (data) => {
-            toast.success('Login successful');
+            toast.success('login successful');
             setEmail('');
             setPassword('');
-            setUser(data.user);
-            navigate("/")
+            navigate("/");
+            userLocalStorage.setUserToLocalStorage(data.data.user)
             console.log(data);
-
+            queryClient.invalidateQueries('userLogin')
         },
         onError: () => {
-            toast.error('Login failed');
+            toast.error('Registration failed');
         }
-    }); // Specify the generic types
+        })
+    // UseQuery to check if the user is already logged in
+ 
+
+ 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            mutate({ email, password }); // Pass user data directly
-        } catch (error) {
-            toast.error('Login failed.');
-            console.error('Login error:', error);
-        }
+       mutation.mutate({email,password})
     };
 
     return (
         <div className='flex h-screen flex-col items-center justify-center'>
             <h2 className='text-xl'>Login In</h2>
             <form onSubmit={handleSubmit} className='w-[400px]'>
-               
                 <div className='m-2 grid'>
                     <label className='text-sm'>Email</label>
                     <input className='px-4 py-1 border-black border-2' value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder='email..' />
@@ -62,7 +48,7 @@ const Login = () => {
                     <label className='text-sm'>Password</label>
                     <input className='px-4 py-1 border-black border-2' value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder='password..' />
                 </div>
-                <button type='submit' className='btn border-2 border-black py-0.5'>{isLoading ? 'Loading...' : 'Submit'}</button>
+                <button type='submit' className='btn border-2 border-black py-0.5'>signup</button>
             </form>
             <ToastContainer />
         </div>
@@ -70,4 +56,3 @@ const Login = () => {
 };
 
 export default Login;
-
