@@ -26,7 +26,6 @@ const Login = () => {
             toast.error('Registration failed');
         }
         })
-    // UseQuery to check if the user is already logged in
  
 
  

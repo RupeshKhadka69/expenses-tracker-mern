@@ -1,30 +1,21 @@
 // import React, { useState, useEffect } from 'react';
 import { Link ,useNavigate} from 'react-router-dom';
 import { userLocalStorage } from '../utils/UserLocalStorage';
-import { useQuery ,useQueryClient} from 'react-query';
-
-type UserData = {
-  name: string;
-  email: string;
-  _id: string;
-};
+import {  useQueryClient} from 'react-query';
+import {UserDataComponent} from './UserData';
 const Navbar = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  // Update user state when user data changes in local storage
-  
-
-  // const getFirstName = (name:string) => name.split(' ')[0];
 
   const logout = () => {
-    userLocalStorage.setUserToLocalStorage(null); // Clear user data from local storage
+    userLocalStorage.setUserToLocalStorage(null); 
     queryClient.invalidateQueries('userLogin');
     navigate("/")
-   // Invalidate the 'userLogin' query to trigger a refetch
+ 
   };
-  const {  data } = useQuery('userLogin', userLocalStorage.getUserFromLocalStorage)as { data: UserData };
-console.log(data);
-
+  const {data} = UserDataComponent();
+  console.log("navbar",data);
+  
   return (
     <div>
       <div className='flex items-center justify-between px-8 bg-slate-500'>

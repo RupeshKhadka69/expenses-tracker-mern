@@ -9,8 +9,8 @@ export const  userLocalStorage = {
     setUserToLocalStorage :(userData:User | null) => {
         localStorage.setItem('userData', JSON.stringify(userData))
     },
-    getUserFromLocalStorage : () => {
-        const userData = localStorage.getItem('userData');
+    getUserFromLocalStorage : async () => {
+        const userData =  await localStorage.getItem('userData');
         return userData ? JSON.parse(userData) : null;
     }
 }

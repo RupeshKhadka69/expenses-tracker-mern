@@ -1,19 +1,12 @@
-import {useContext,useEffect} from 'react'
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-
+import {useQuery } from 'react-query'
+import { userLocalStorage } from '../utils/UserLocalStorage';
+// import { useNavigate } from 'react-router-dom';
 const Profile = () => {
-    const navigate = useNavigate();
-    const {user} = useContext(AuthContext)
-    useEffect(()=> {
-        if(!user){
-            navigate("/login")
-        }
-    },[navigate,user])
-
+  const {  data } = useQuery('userLogin', userLocalStorage.getUserFromLocalStorage)as { data: IUser };
+  
 
   return (
-    <div className='text-2xl text-center'>{`welcome ${user?.name}`}</div>
+    <div className='text-2xl text-center'>{`welcome ${data?.name}`}</div>
   )
 }
 
