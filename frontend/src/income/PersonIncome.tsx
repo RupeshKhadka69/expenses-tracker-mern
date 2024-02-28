@@ -2,7 +2,19 @@ import { useQuery } from "react-query";
 import { IncomeService } from "../services/IncomeService";
 import IncomeList from "./IncomeList";
 import { UserDataComponent } from "../components/UserData";
+import {useState} from 'react'
+import AddIncome from "./AddIncome";
 const PersonIncome = () => {
+      //    const {data} = UserDataComponent()
+      const [isModalOpen, setIsModalOpen] = useState(false);
+
+      const openModal = () => {
+        setIsModalOpen(true);
+      };
+    
+      const closeModal = () => {
+        setIsModalOpen(false);
+      };
     const {data:users} = UserDataComponent();
     
         console.log("use",users);
@@ -23,7 +35,9 @@ const PersonIncome = () => {
 
     return (
         <div>
-            <h1>Total Income {totalIncomeAmount}</h1> 
+            <div className="text-right text-xl"><button onClick={openModal}>open</button></div>
+            <AddIncome isOpen={isModalOpen} onClose={closeModal}/>
+            <h1 className="text-center text-xl py-8">Total Income <span className="text-2xl text-lime-500">{totalIncomeAmount}</span></h1> 
             <div>
                 {data?.data.map((incomeItem:incomeType) => {
                     const {_id,title,amount,description,date,category} = incomeItem;
