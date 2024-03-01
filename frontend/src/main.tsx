@@ -8,8 +8,8 @@ import Login from './pages/SignIn';
 import HeroPage from './components/HeroPage';
 import Income from './income/PersonIncome';
 import PrivateRoute from './components/PrivateRoute';
-import AddIncome from './income/AddIncome';
 import Profile from './pages/Profile';
+import CardTable from './components/CardTable';
 import { ReactQueryDevtools } from 'react-query/devtools'
 const queryClient = new QueryClient(
 
@@ -30,11 +30,11 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login />}></Route>
       <Route path="/register" element={<Register />}></Route>
       <Route path="/profile" element={<Profile />}></Route>
+      <Route path="/card" element={<CardTable />}></Route>
 
       {/* Private Route */}
       <Route path="" element={<PrivateRoute />}>
         <Route path="/income" element={<Income />}></Route>
-        <Route path="/addincome" element={<AddIncome />}></Route>
       </Route>
     
     </Route>

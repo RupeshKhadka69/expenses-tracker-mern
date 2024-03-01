@@ -8,7 +8,7 @@
     type incomeType = {
       name?: string, 
      description: string,
-     category: string,
+     category?: string,
      type?: string,
      date: string
      _id?: string,
