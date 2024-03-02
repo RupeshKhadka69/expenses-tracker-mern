@@ -61,10 +61,10 @@ const Navbar = () => {
             </li>
           </ul>
         ) : (
-          <div className=' md:grow grow-0'>
+          <div className=' md:grow grow-0 items-center'>
             <div className='flex items-center justify-between'>
 
-              <div className='hidden md:flex gap-4'>
+              <div className='hidden md:flex items-center gap-4'>
                 <ul className='flex items-center  gap-4 '>
                   <li>kdsmkvm</li>
                   <li>kdsmkvm</li>

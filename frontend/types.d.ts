@@ -1,4 +1,7 @@
-    type IUser = {
+
+
+
+type IUser = {
       name?: string;
       _id?: string,
       email: string;
@@ -10,7 +13,7 @@
      description: string,
      category?: string,
      type?: string,
-     date: string
+     date: date,
      _id?: string,
      title: string,
      amount: number

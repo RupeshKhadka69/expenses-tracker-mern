@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-
+import { SVGMotionProps } from "framer-motion";
 interface MenuToggleProps {
   toggle: () => void;
 }
 
-const Path = (props ) => (
+const Path = (props:SVGMotionProps<SVGPathElement>  ) => (
   <motion.path
     fill="transparent"
     strokeWidth="3"

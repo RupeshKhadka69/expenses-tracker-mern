@@ -1,16 +1,31 @@
 
 import { useQueryClient } from "react-query";
-import { FaMoneyCheck } from "react-icons/fa";
 import { IncomeService } from "../services/IncomeService";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FaDollarSign } from "react-icons/fa6";
-
+import { money,stock,sales,unknown } from "../utils/Icons";
 import { FaRegEdit } from "react-icons/fa";
-
-const IncomeList: React.FC<incomeType> = ({ _id, title, description, amount, date }) => {
+import { dateFormat } from "../utils/Date";
+const IncomeList: React.FC<incomeType> = ({ _id, title, description,category, amount, date }) => {
   
     const queryClient = useQueryClient();
     console.log(_id);
+    const incomeIcon = () => {
+      switch (category) {
+        case "money":
+          return money;
+          
+        case "stock":
+          return stock;
+          
+        case "sales":
+          return sales;
+          
+      
+        default:
+          return unknown;
+      }
+    }
 
     const deleteIncome = async (id: string | undefined) => {
         try {
@@ -32,11 +47,11 @@ const IncomeList: React.FC<incomeType> = ({ _id, title, description, amount, dat
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
-                          <FaMoneyCheck className="w-10 h-10 "/>
+                          {incomeIcon()}
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">{title}</div>
-                          <div className="text-sm text-gray-500">{date}</div>
+                          <div className="text-sm text-gray-500">{dateFormat(date)}</div>
                         </div>
                       </div>
                     </td>
