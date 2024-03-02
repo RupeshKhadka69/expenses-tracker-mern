@@ -34,12 +34,13 @@ const PersonIncome = () => {
   const totalIncomeAmount = data.data.reduce((total: number, incomeItem: incomeType) => total + incomeItem.amount, 0);
 
   return (
-    <div>
-      <div className="text-right container mx-auto "> <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded my-4 mr-[20px]" onClick={openModal}>Add Income</button></div>
+    <div className="w-full">
+      <div className="text-right container mx-auto ">
+         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded my-4 mr-[20px]" onClick={openModal}>Add Income</button></div>
       <AddIncome isOpen={isModalOpen} onClose={closeModal} />
       <h1 className="text-center text-xl py-8">Total Income <span className="text-2xl text-lime-500">{totalIncomeAmount}</span></h1>
-      <div className="flex flex-col max-w-[1240px] mx-auto ">
-        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="flex flex-col  ">
+        <div className=" overflow-x-auto ">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <table className="min-w-full divide-y divide-gray-200">

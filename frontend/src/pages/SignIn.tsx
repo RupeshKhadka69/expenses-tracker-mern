@@ -20,7 +20,7 @@ const Login = () => {
             navigate("/");
             userLocalStorage.setUserToLocalStorage(data.data.user)
             console.log(data);
-            queryClient.invalidateQueries('userLogin')
+            queryClient.invalidateQueries('user')
         },
         onError: () => {
             toast.error('Registration failed');
