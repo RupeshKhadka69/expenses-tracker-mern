@@ -1,11 +1,11 @@
-import { useQuery } from "react-query";
-import { IncomeService } from "../services/IncomeService";
+
 import IncomeList from "./IncomeList";
-import { UserDataComponent } from "../components/UserData";
+
 import { useState } from 'react'
 import AddIncome from "./AddIncome";
+import GetAllIncome from "../services/GetIncome";
+import { Spinner } from '@chakra-ui/react'
 const PersonIncome = () => {
-  //    const {data} = UserDataComponent()
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -15,17 +15,19 @@ const PersonIncome = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const { data: users } = UserDataComponent();
 
-  console.log("use", users);
-
-  const fetchIncomeData = async () => IncomeService.getIncome(users._id as string);
-  const { data, isLoading, isError } = useQuery("allIncome", fetchIncomeData);
+  const { data, isLoading, isError } = GetAllIncome();
 
 
 
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className="flex h-screen justify-center items-center"><Spinner
+    thickness='4px'
+    speed='0.65s'
+    emptyColor='gray.200'
+    color='blue.500'
+    size='xl'
+  /></div>
   if (isError) return <div>Error fetching data</div>;
 
   if (!data || !data.data || data.data.length === 0) {
@@ -36,7 +38,7 @@ const PersonIncome = () => {
   return (
     <div className="w-full">
       <div className="text-right container mx-auto ">
-         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded my-4 mr-[20px]" onClick={openModal}>Add Income</button></div>
+        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded my-4 mr-[20px]" onClick={openModal}>Add Income</button></div>
       <AddIncome isOpen={isModalOpen} onClose={closeModal} />
       <h1 className="text-center text-xl py-8">Total Income <span className="text-2xl text-lime-500">{totalIncomeAmount}</span></h1>
       <div className="flex flex-col  ">
@@ -87,7 +89,6 @@ const PersonIncome = () => {
       </div>
 
     </div>
-    // </div>
   );
 };
 

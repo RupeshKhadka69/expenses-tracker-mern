@@ -1,8 +1,9 @@
-import expensesSchema from "../model/expensesSchema";
+import expenseSchema from "../model/expensesSchema";
 import { Request, Response } from "express";
 const addExpense = async (req: Request, res: Response) => {
   const { title, category, date, amount, description } = req.body;
-  const userId = req.user._id;
+  const {userid} = req.params;
+  
   if (!title || !category || !date || !amount || !description) {
     return res.status(401).json({ message: "all fields are necessary" });
   }
@@ -11,11 +12,14 @@ const addExpense = async (req: Request, res: Response) => {
       .status(400)
       .json({ message: "Amount must be a positive number" });
   }
+  if(!userid) {
+    return res.status(401).json({message: "id not provided as params"})
+  }
 
   try {
-    const newExpense = new expensesSchema({
+    const newExpense = new expenseSchema({
       title,
-      user: userId,
+      user: userid,
       amount,
       description,
       category,
@@ -26,25 +30,26 @@ const addExpense = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: "expense added successfully" });
   } catch (err) {
-    console.error("Error adding income:", err);
+    console.error("Error adding expense:", err);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
 const getAllExpenses = async (req: Request, res: Response) => {
-  try {
-    const userId = req.user?._id;
-    if (!userId) {
-      return res
-        .status(401)
-        .json({ success: false, message: "User not authenticated" });
-    }
+  const {userid} = req.params;
 
-    const specificUserIncome = await expensesSchema.find({ user: userId });
+  if (!userid) {
+    return res
+      .status(401)
+      .json({ success: false, message: "not a valid id" }); 
+  }
+  try {
+
+    const specificUserExpense = await expenseSchema.find({ user: userid });
 
     return res.status(200).json({
       success: true,
       message: "expense data retrieved successfully",
-      data: specificUserIncome,
+      data: specificUserExpense,
     });
   } catch (err) {
     console.error("Error retrieving expense data:", err);
@@ -55,17 +60,17 @@ const getAllExpenses = async (req: Request, res: Response) => {
 };
 
 const deleteExpenseById = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const {id } = req.params;
 
   try {
     if (!id) {
       return res.status(400).json({ message: 'ID not provided' });
     }
 
-    const deletedExpense = await expensesSchema.findByIdAndDelete(id);
+    const deleteExpense = await expenseSchema.findByIdAndDelete(id);
 
-    if (!deletedExpense) {
-      return res.status(404).json({ message: 'Income entry not found' });
+    if (!deleteExpense) {
+      return res.status(404).json({ message: 'expemse entry not found' });
     }
 
     return res.status(200).json({ message: 'expense entry deleted successfully' });

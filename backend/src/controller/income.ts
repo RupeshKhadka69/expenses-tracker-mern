@@ -35,7 +35,7 @@ const addIncome = async (req: Request, res: Response) => {
   }
 };
 const getAllIncomes = async (req: Request, res: Response) => {
-  const {userid} = req.params;
+  const {userid} = req.params; 
 
   if (!userid) {
     return res

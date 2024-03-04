@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import { FormData, UserSchema } from '../form/types';
 import FormField from '../form/FormField';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { CloseButton } from '@chakra-ui/react'
+import SelectForm from '../form/Select';
 type props = {
     isOpen: boolean;
     onClose: React.MouseEventHandler<HTMLButtonElement> | undefined;
@@ -48,7 +50,7 @@ const AddIncome = ({ isOpen, onClose }: props) => {
                     <div className="modal-content py-4 text-left px-6">
                         <div className="flex justify-between items-center pb-3">
                             <p className="text-2xl font-bold">Add Income</p>
-                            <button className="modal-close text-2xl font-bold" onClick={onClose}>&times;</button>
+                            <button className="modal-close text-2xl font-bold" onClick={onClose}><CloseButton size='md' /></button>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className='m-2 grid'>
@@ -94,17 +96,8 @@ const AddIncome = ({ isOpen, onClose }: props) => {
                             </div>
                             <div className='m-2 grid'>
                                 <label className='block text-gray-700 text-sm font-bold mb-2'>category</label>
-                                <select className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight  focus:shadow-outline' required id="category" {...register("category")} >
-                                    <option value="" disabled >Select Option</option>
-                                    <option value="salary">Salary</option>
-                                    <option value="freelancing">Freelancing</option>
-                                    <option value="investments">Investiments</option>
-                                    <option value="stock">Stocks</option>
-                                    <option value="bitcoin">Bitcoin</option>
-                                    <option value="bank">Bank Transfer</option>
-                                    <option value="youtube">Youtube</option>
-                                    <option value="other">Other</option>
-                                </select>
+                              <SelectForm name='category' register={register} error={errors.category}/>
+                                {/* <span>{errors.category}</span> */}
                             </div>
                             <button type='submit' className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 my-4 w-full rounded-full'>Add Income</button>
                         </form>

@@ -1,10 +1,10 @@
 import { httpClient } from "../config/HtttpConfig";
-interface addIncome {
+interface addExpense {
     userId: string | undefined;
-    incomedata: incomeType;
+    expensedata: incomeType;
 }
 
-export const IncomeService = {
+export const ExpenseService = {
     async getExpense(userId: string | undefined) {
         try {
             const response = await httpClient.get(`/api/user/expense/all/${userId}`);
@@ -27,9 +27,9 @@ export const IncomeService = {
         }
     },
 
-    async addExpense({ userId, incomedata }: addIncome) {
+    async addExpense({ userId, expensedata }: addExpense) {
         try {
-            const response = await httpClient.post(`/api/user/add-expense/${userId}`, incomedata);
+            const response = await httpClient.post(`/api/user/add-expense/${userId}`, expensedata);
             return response.data;
         } catch (error) {
             console.error("Error adding income:", error);

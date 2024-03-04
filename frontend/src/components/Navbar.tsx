@@ -48,7 +48,7 @@ const Navbar = () => {
   const { data } = UserDataComponent();
 
   return (
-    <div className='bg-orange-200 relative  py-[18px] '>
+    <div className='bg-indigo-300 relative  py-[18px] '>
       <div className="flex items-center  justify-between md:px-8 px-2  container mx-auto">
         <div className="logo flex flex-none md:flex-auto">Rupesh</div>
         {!data ? (
@@ -66,9 +66,9 @@ const Navbar = () => {
 
               <div className='hidden md:flex items-center gap-4'>
                 <ul className='flex items-center  gap-4 '>
-                  <li>kdsmkvm</li>
-                  <li>kdsmkvm</li>
-                  <li>kdsmkvm</li>
+                  <li><Link to={"/dashboard"}>DashBoard</Link> </li>
+                  <li><Link to={"/income"}>Income</Link></li>
+                  <li><Link to={"/expense"}>Expense</Link></li>
                 </ul>
 
               </div>

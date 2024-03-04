@@ -5,7 +5,7 @@ import Navbar from './components/Navbar'
 function App() {
 
   return (
-    <div className='bg-slate-100'>
+    <div className='font bg-neutral-100'>
 
       <Navbar/>
      <Outlet />      
